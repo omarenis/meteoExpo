@@ -13,13 +13,11 @@ export default function App() {
     const [city, setCity] = React.useState('');
     const themeHook = useState("dark");
     const [darkTheme, setDarkTheme] = useState(true)
-
+    const date = new Date();
+    console.log();
     const [currentTemperature, setCurrentTemperature] = useState('31')
-
     const [locationCoords, setLocationCoords] = useState(null);
-
     const [locationName, setLocationName] = useState('Brasil, Fortaleza')
-
     const [temperatureMin, setTemperatureMin] = useState('21')
     const [temperatureMax, setTemperatureMax] = useState('32')
     const [wind, setWind] = useState('7')
@@ -97,9 +95,9 @@ export default function App() {
         } else {
             data = await getResult(city);
         }
-        setCurrentTemperature(convertKelvinToC(data[0]));
-        setTemperatureMin(convertKelvinToC(data[1]));
-        setTemperatureMax(convertKelvinToC(data[2]));
+        setCurrentTemperature(String(Math.floor(convertKelvinToC(data[0]))));
+        setTemperatureMin(String(Math.floor(convertKelvinToC(data[1]))));
+        setTemperatureMax(String(Math.floor(convertKelvinToC(data[2]))));
         setLocationName(data[3]);
         setWind(data[4]);
         setHumidity(data[5]);
@@ -127,8 +125,8 @@ export default function App() {
                 }} onChangeText={setCity} value={city} placeholder={"type your city here"}/>
                 <TouchableOpacity
                     style={{backgroundColor: 'blue', marginLeft: 10, height: 40, textAlign: 'center', padding: 10}}
-                onPress={()=>{ setCurrentWeather(city) }}>
-                    <Text style={{color: 'white'}}>click me</Text>
+                onPress={()=> setCurrentWeather(city) }>
+                    <Text style={{color: 'white'}}>ok</Text>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.refreshButton} onPress={() => setCurrentWeather()}>
@@ -140,7 +138,7 @@ export default function App() {
                 <Text style={[styles.temperatureText, {fontSize: 14}]}>°C</Text>
             </View>
 
-            <Text style={styles.localizationText}>{locationName}, 13:52</Text>
+            <Text style={styles.localizationText}>{locationName}, {date.getHours() + ":" + date.getMinutes()}</Text>
 
             <View style={styles.cardsView}>
                 <MainCard title={"Manhã"} icon={'morning'} temperature={"27°"}
